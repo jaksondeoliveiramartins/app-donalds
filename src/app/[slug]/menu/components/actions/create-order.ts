@@ -14,7 +14,7 @@ interface CreateOrderInput {
     id: string;
     quantity: number;
   }>;
-  consumptionMethod: ConsumptionMethod;
+  consumptionMethod: ConsumptionMethod | null;
 }
 
 export const createOrder = async (input: CreateOrderInput) => {
@@ -58,7 +58,7 @@ export const createOrder = async (input: CreateOrderInput) => {
         0,
       ),
 
-      consumptionMethod: input.consumptionMethod,
+      consumptionMethod: input.consumptionMethod ?? 'DINE_IN',
       restaurant: {
         connect: {
           id: restaurant.id,

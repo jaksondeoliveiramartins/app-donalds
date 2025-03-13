@@ -105,10 +105,12 @@ const restaurant = await db.restaurant.findUnique({
   });
 
 ## Executado no servidor.
+
 console.log(restaurant)
 console.log(restaurant?.menuCategories)
 
 # Usar uma mascara para  caracteres  no cpf
+
  npm i react-number-format@5.4.3
 
 # Server Actions

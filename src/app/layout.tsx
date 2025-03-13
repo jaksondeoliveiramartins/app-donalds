@@ -3,7 +3,10 @@ import "./globals.css";
 import type { Metadata } from "next";
 import {Poppins} from "next/font/google";
 
+import { Toaster } from "@/components/ui/sonner";
+
 import { CartProvider } from "./[slug]/menu/context/cart";
+
 
 
 const poppins = Poppins({
@@ -29,6 +32,8 @@ export default function RootLayout({
       >
         
         <CartProvider>{children}</CartProvider>
+
+        <Toaster/>
       </body>
     </html>
   );
