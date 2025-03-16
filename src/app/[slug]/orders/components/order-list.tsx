@@ -3,6 +3,7 @@
 import { OrderStatus, Prisma } from "@prisma/client";
 import { ChevronLeftIcon, ScrollTextIcon } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 import { formatCurrency } from "@/app/helpers/format.currency";
 import { Button } from "@/components/ui/button";
@@ -37,14 +38,22 @@ const getStatusLabel = (status: OrderStatus) => {
     if (status === "PAYMENT_CONFIRMED") return "Pagamento confirmado";
     if (status === "PAYMENT_FAILED") return "Pagamento falhou";
     return "";
-  };
+};
 
 const OrderList = ({ orders }: OrderListProps) => {
+
+
+    const router = useRouter();
+    const handleBackClick = () => router.back();
+
+
+
     return (
         <div className="space-y-6 p-6 ">
             <Button
                 size="icon"
                 variant="secondary" className="rounded-full"
+                onClick={handleBackClick}
             >
                 <ChevronLeftIcon />
             </Button>
@@ -58,9 +67,9 @@ const OrderList = ({ orders }: OrderListProps) => {
                 <Card key={order.id}>
                     <CardContent className="space-y-4 p-5">
                         <div
-                            className={`w-fit rounded-full  px-2 py-1 text-xs font-semibold text-white ${([OrderStatus.PAYMENT_CONFIRMED, OrderStatus.FINISHED] as OrderStatus[]).includes(order.status)? "bg-green-500" : "bg-gray-200 text-gray-500"} bg-gray-400"`}
+                            className={`w-fit rounded-full  px-2 py-1 text-xs font-semibold text-white ${([OrderStatus.PAYMENT_CONFIRMED, OrderStatus.FINISHED] as OrderStatus[]).includes(order.status) ? "bg-green-500" : "bg-gray-200 text-gray-500"} bg-gray-400"`}
                         >
-                          {getStatusLabel(order.status)}
+                            {getStatusLabel(order.status)}
 
                         </div>
                         <div className="flex items-center gap-2">
@@ -74,14 +83,17 @@ const OrderList = ({ orders }: OrderListProps) => {
                         </div>
                         <Separator />
 
-                        {order.orderProducts.map((orderProduct) => (
-                            <div key={orderProduct.id} className="flex items-center gap-2">
-                                <div className="flex  h-5 w-5 items-center justify-center rounded-full bg-gray-400 text-xs font-semibold text-white">{orderProduct.quantity}
+                        <div className="space-y-2">
 
+                            {order.orderProducts.map((orderProduct) => (
+                                <div key={orderProduct.id} className="flex items-center gap-2">
+                                    <div className="flex  h-5 w-5 items-center justify-center rounded-full bg-gray-400 text-xs font-semibold text-white">{orderProduct.quantity}
+
+                                    </div>
+                                    <p className="text-sm">{orderProduct.product.name}</p>
                                 </div>
-                                <p className="text-sm">{orderProduct.product.name}</p>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                         <Separator />
                         <p className="text-sm font-medium">{formatCurrency(order.total)}
 
@@ -93,9 +105,9 @@ const OrderList = ({ orders }: OrderListProps) => {
                 </Card>
             ))}
         </div>
-);
+    );
 }
-export default OrderList; 
+export default OrderList;
 
 
 
