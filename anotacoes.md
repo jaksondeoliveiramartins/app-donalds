@@ -1,20 +1,22 @@
 ## link do repositorio Github: aula -2
-https://github.com/fullstackclubeducacao/fullstackweek-donalds
+
+<https://github.com/fullstackclubeducacao/fullstackweek-donalds>
 
 ## link do repositorio Github: aula -3
-https://github.com/fullstackclubeducacao/fullstackweek-donalds/tree/aula-03
+
+<https://github.com/fullstackclubeducacao/fullstackweek-donalds/tree/aula-03>
 
 ## link do repositorio Github: aula -4
 
-https://github.com/fullstackclubeducacao/fullstackweek-donalds/tree/aula-04
+<https://github.com/fullstackclubeducacao/fullstackweek-donalds/tree/aula-04>
 
 ## Link do Repositorio Github: aula -5
 
-https://github.com/fullstackclubeducacao/fullstackweek-donalds/tree/aula-05
+<https://github.com/fullstackclubeducacao/fullstackweek-donalds/tree/aula-05>
 
-## link - figma: 
+## link - figma
 
-https://www.figma.com/design/sJtDO8WNiDcehboerUdlRq/FSW-Donald%E2%80%99s?node-id=440-199&p=f&t=cMTj9r1TSPP9cXwL-0
+<https://www.figma.com/design/sJtDO8WNiDcehboerUdlRq/FSW-Donald%E2%80%99s?node-id=440-199&p=f&t=cMTj9r1TSPP9cXwL-0>
 
 passo - 1 - npx create-next-app@15.1.6 .
 
@@ -42,34 +44,37 @@ passo 12 voltar  no arquivo schema.prisma e add Cascate deletion.
 
 passo 13  instalar=> npm install -D ts-node@10.9.2
 
-
 passo 14 - ir  ate  ao arquivo package.json, abaixo de script  vou colocar  prisma:{"seed":'ts-node ./prisma/seed.ts'}    => ou seja aqui estou falando este daqui é o script de seed quando ele rodar  execute o ts-node.
 
 passoo - 15- rodar  o seed.ts no banco => npx  prisma db seed
 
-# Ferrammentas:
+# Ferrammentas
+
 - conventional commits
- - shadcn
+- shadcn
  instalar o shadcn => npx shadcn@2.3.0 init
  adicionar => npx shadcn@2.3.0 add card
  instalar plugin =>npm install -D eslint-plugin-simple-import-sort@12.1.1
- 
- https://www.npmjs.com/package/prettier-plugin-tailwindcss/v/0.0.0-insiders.d539a72
+
+ <https://www.npmjs.com/package/prettier-plugin-tailwindcss/v/0.0.0-insiders.d539a72>
  instalar => npm install -D prettier-plugin-tailwindcss@0.6.5
 
- # use client 
+# use client
+
  no client posso importar para o service components ja do service components nao posso importar para o client components.
 
-## Nao é semântico usar o atributo <a></a> dentro da tag <button></button> pois assim vai dar erro no html.Para corrigir  isso usamos o asChildren para que aplique o estilo  da tag button ao link.
+## Nao é semântico usar o atributo <a></a> dentro da tag <button></button> pois assim vai dar erro no html.Para corrigir  isso usamos o asChildren para que aplique o estilo  da tag button ao link
 
 ### server components - renderizados no servidor
-* podem ser async.
 
-* podem chamar recursos do back-end  (banco de dados).
+- podem ser async.
 
-* nao pode usar hooks.
+- podem chamar recursos do back-end  (banco de dados).
 
-# Comandos do prisma 
+- nao pode usar hooks.
+
+# Comandos do prisma
+
 *npx prisma migrate dev
 
 *npx prisma format
@@ -86,14 +91,13 @@ passoo - 15- rodar  o seed.ts no banco => npx  prisma db seed
 
 *npx create-next-app@15.1.6 .
 
-* npx next -v
+- npx next -v
 
-* npm list next
+- npm list next
 
 ## juntar tabelas usamos o include
 
-exemplo 
-
+exemplo
 
 const restaurant = await db.restaurant.findUnique({
     where: { slug },
@@ -104,7 +108,7 @@ const restaurant = await db.restaurant.findUnique({
     },
   });
 
-## Executado no servidor.
+## Executado no servidor
 
 console.log(restaurant)
 console.log(restaurant?.menuCategories)
@@ -117,9 +121,22 @@ console.log(restaurant?.menuCategories)
 
 Funções que são executadas no servidor, mas podem ser chamadas de  client components
 
-# consumptionMethod:
+# consumptionMethod
 
 Para corrigir esse problema, você precisa garantir que o valor consumptionMethod não seja nulo antes de atribuí-lo ao campo consumptionMethod no modelo Order. Você pode fazer isso adicionando uma verificação nula ou fornecendo um valor padrão.
 Aqui está um exemplo de como você pode corrigir esse problema:
 
 consumptionMethod: input.consumptionMethod ?? "DINE_IN", // provide a default value
+
+## package.json
+
+no arquivoo do package.json em script adicionar;
+ "postinstall": "prisma generate"
+
+## vercel
+
+ *lembrar de copiar a url do seu banco de  dados , se encontra no arquivo .env
+
+## Erros de Eslint
+
+*abra  o terminal  e faça um build para fix doos imports  dos Eslint.
