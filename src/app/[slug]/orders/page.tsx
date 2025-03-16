@@ -18,28 +18,32 @@ const OrdersPage = async ({ searchParams }: OrdersPageProps) => {
     }
 
     const orders = await db.order.findMany({
+        orderBy: {
+            createdAt: "desc",
+        },
+
         where: {
             customerCpf: removeCpfPunctuation(cpf),
         },
-        
+
         include: {
-            restaurant:{
+            restaurant: {
                 select: {
-                    name:true,
+                    name: true,
                     avatarImageUrl: true,
                 },
             },
 
-            orderProducts:{
+            orderProducts: {
 
-                include:{
+                include: {
                     product: true,
-                        
-                    
+
+
                 },
             },
         },
-        
+
     });
 
     return <OrderList orders={orders} />;
