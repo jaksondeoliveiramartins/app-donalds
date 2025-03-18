@@ -14,7 +14,6 @@ import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, Dr
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { CartContext } from "../context/cart";
 import { isValidCpf } from "../helpers/cpf";
 import { createOrder } from "./actions/create-order";
 
@@ -44,14 +43,9 @@ interface FinishOrderDialogProps {
     onOpenChange: (open: boolean) => void;
 }
 
-
-
-
-
 const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
     const { slug } = useParams<{ slug: string }>()
     const { products } = useContext(CartContext);
-
     const searchParams = useSearchParams();
     const [isPending, starTransition] = useTransition();
 
@@ -61,10 +55,8 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
             name: "",
             cpf: "",
         },
-
         shouldUnregister: true,
     });
-
     const onSubmit = async (data: FormSchema) => {
         try {
 
@@ -87,14 +79,7 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
 
 
         }
-        catch (error) {
-            console.error(error)
-        }
-
     };
-
-
-
     return (
         <Drawer open={open} onOpenChange={onOpenChange}>
             <DrawerTrigger asChild>
@@ -102,14 +87,12 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
             </DrawerTrigger>
             <DrawerContent>
                 <DrawerHeader>
-
                     <DrawerTitle>Finalizar Pedido</DrawerTitle>
                     <DrawerDescription>
                         Insira suas informações abaixo para finalizar o seu pedido.
                     </DrawerDescription>
                 </DrawerHeader>
                 <div className="p-5">
-
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                             <FormField
@@ -166,18 +149,7 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
                 </div>
             </DrawerContent>
         </Drawer>
-
-
     );
-
 };
 
-
-
 export default FinishOrderDialog;
-
-
-
-
-
-
