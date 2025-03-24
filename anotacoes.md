@@ -137,6 +137,5 @@ no arquivoo do package.json em script adicionar;
 
  *lembrar de copiar a url do seu banco de  dados , se encontra no arquivo .env
 
-## Erros de Eslint
 
 *abra  o terminal  e faça um build para fix doos imports  dos Eslint.
