@@ -74,10 +74,11 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
   const onSubmit = async (data: FormSchema) => {
     try {
       setIsLoading(true);
+
       const consumptionMethod = searchParams.get(
         "consumptionMethod",
       ) as ConsumptionMethod;
-
+      // Criação do pedido
       const order = await createOrder({
         consumptionMethod,
         customerCpf: data.cpf,
@@ -85,27 +86,47 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
         products,
         slug,
       });
+      // Criação da sessão de checkout do Stripe
       const { sessionId } = await createStripeCheckout({
         products,
         orderId: order.id,
         slug,
-        consumpthionMethod,
+        consumptionMethod,
         cpf: data.cpf,
       });
 
-      if (!process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY) return;
+      // Validação da chave pública do Stripe
+      if (!process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY) {
+        return;
+      }
+
+      // Carregamento do Stripe
       const stripe = await loadStripe(
         process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY,
       );
-      stripe?.redirectToCheckout({
-        sessionId: sessionId,
-      });
+      if (!stripe) {
+        console.error("falha ao carregar o stripe");
+        return;
+      }
+
+      // Redirecionamento para o checkout do Stripe
+      const { error } = await stripe.redirectToCheckout({ sessionId });
+
+      if (error) {
+        console.error(
+          "Erro ao redirecionar para o checkout do Stripe:",
+          error.message,
+        );
+      }
+
+      // stripe?.redirectToCheckout({
+      //   sessionId: sessionId,
+      //});
     } catch (error) {
-      console.error(error);
+      console.error("Error ao finalizar o Pedido", error);
+    } finally {
+      setIsLoading(false); // Garante que o estado de carregamento seja atualizado
     }
-     finally {
-        setIsLoading(false);
-    }             
   };
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>

@@ -13,16 +13,15 @@ interface createStripeCheckoutInput {
   products: CartProduct[];
   orderId: number;
   slug: string;
-  consumpthionMethod: ConsumptionMethod;
+  consumptionMethod: ConsumptionMethod;
   cpf: string;
 }
 export const createStripeCheckout = async ({
   orderId,
   products,
   slug,
-  consumpthionMethod: ConsumptionMethod,
+  consumptionMethod: ConsumptionMethod,
   cpf,
-  
 }: createStripeCheckoutInput) => {
   if (!process.env.STRIPE_SECRET_KEY) {
     throw new Error("Stripe secret key not found");
