@@ -28,7 +28,6 @@ export const createOrder = async (input: CreateOrderInput) => {
   if (!restaurant) {
     throw new Error("Restaurant not found");
   }
-  
 
   const productsWithPrices = await db.product.findMany({
     where: {
@@ -44,7 +43,7 @@ export const createOrder = async (input: CreateOrderInput) => {
     price: productsWithPrices.find((p) => p.id === product.id)!.price,
   }));
 
-  await db.order.create({
+  const order = await db.order.create({
     data: {
       status: "PENDING",
       customerName: input.customerName,
@@ -59,7 +58,7 @@ export const createOrder = async (input: CreateOrderInput) => {
         0,
       ),
 
-      consumptionMethod: input.consumptionMethod ?? 'DINE_IN',
+      consumptionMethod: input.consumptionMethod ?? "DINE_IN",
       restaurant: {
         connect: {
           id: restaurant.id,
@@ -68,5 +67,7 @@ export const createOrder = async (input: CreateOrderInput) => {
     },
   });
   revalidatePath(`/${input.slug}/orders`);
-  // redirect(`/${input.slug}/orders`);	
+  // redirect(`/${input.slug}/orders`);
+
+  return order;
 };
