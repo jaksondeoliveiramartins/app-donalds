@@ -72,7 +72,7 @@ export async function POST(request: Request) {
           },
         },
       });
-      revalidatePath(`/${order.restaurant.slug}/orders`);
+      revalidatePath(`/${order.restaurant.slug}/menu`);
       break;
     }
   }
