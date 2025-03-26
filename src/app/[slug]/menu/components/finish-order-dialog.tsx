@@ -96,32 +96,16 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
       });
 
       // Validação da chave pública do Stripe
-      if (!process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY) {
-        return;
-      }
+      if (!process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY) return;
 
       // Carregamento do Stripe
       const stripe = await loadStripe(
         process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY,
       );
-      if (!stripe) {
-        console.error("falha ao carregar o stripe");
-        return;
-      }
-
       // Redirecionamento para o checkout do Stripe
-      const { error } = await stripe.redirectToCheckout({ sessionId });
-
-      if (error) {
-        console.error(
-          "Erro ao redirecionar para o checkout do Stripe:",
-          error.message,
-        );
-      }
-
-      // stripe?.redirectToCheckout({
-      //   sessionId: sessionId,
-      //});
+      stripe?.redirectToCheckout({
+        sessionId: sessionId,
+      });
     } catch (error) {
       console.error("Error ao finalizar o Pedido", error);
     } finally {
