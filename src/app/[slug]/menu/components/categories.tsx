@@ -4,9 +4,9 @@ import { ClockIcon } from "lucide-react";
 import Image from "next/image";
 import { useContext, useState } from "react";
 
-import { formatCurrency } from "@/helpers/format.currency";
 import { Button } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { formatCurrency } from "@/helpers/format.currency";
 
 import { CartContext } from "../context/cart";
 import CartSheet from "./cart-sheet";
