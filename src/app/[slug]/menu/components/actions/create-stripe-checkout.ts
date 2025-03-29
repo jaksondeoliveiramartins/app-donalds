@@ -45,6 +45,9 @@ export const createStripeCheckout = async ({
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     mode: "payment",
+    // success_url: "http://localhost:3000",
+    // cancel_url: "http://localhost:3000",
+
     success_url: `${origin}/${slug}/orders?${searchParams.toString()}`,
     cancel_url: `${origin}/${slug}/orders?${searchParams.toString()}`,
     metadata: {
@@ -58,6 +61,8 @@ export const createStripeCheckout = async ({
           name: product.name,
           images: [product.imageUrl],
         },
+        
+
         unit_amount: productsWithPrices.find((p) => p.id === product.id)!.price,
       },
       quantity: product.quantity,
