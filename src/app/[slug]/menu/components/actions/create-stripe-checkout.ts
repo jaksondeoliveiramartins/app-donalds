@@ -1,7 +1,7 @@
 "use server";
 
 import { ConsumptionMethod } from "@prisma/client";
-//import { headers } from "next/headers";
+import { headers } from "next/headers";
 import Stripe from "stripe";
 
 import { db } from "@/lib/prisma";
@@ -19,14 +19,14 @@ interface createStripeCheckoutInput {
 export const createStripeCheckout = async ({
   orderId,
   products,
-  //slug,
+  slug,
   consumptionMethod: ConsumptionMethod,
   cpf,
 }: createStripeCheckoutInput) => {
   if (!process.env.STRIPE_SECRET_KEY) {
     throw new Error("Stripe secret key not found");
   }
-  //const origin = (await headers()).get("origin") as string;
+  const origin = (await headers()).get("origin") as string;
   const productsWithPrices = await db.product.findMany({
     where: {
       id: {
@@ -45,13 +45,13 @@ export const createStripeCheckout = async ({
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     mode: "payment",
-    success_url: "http://localhost:3000",
-    cancel_url: "http://localhost:3000",
+    // success_url: "http://localhost:3000",
+    // cancel_url: "http://localhost:3000",
 
     metadata: {
       orderId,
-      // success_url: `${origin}/${slug}/orders?${searchParams.toString()}`,
-      // cancel_url: `${origin}/${slug}/orders?${searchParams.toString()}`,
+      success_url: `${origin}/${slug}/orders?${searchParams.toString()}`,
+      cancel_url: `${origin}/${slug}/orders?${searchParams.toString()}`,
     },
 
     line_items: products.map((product) => ({
