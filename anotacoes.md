@@ -158,7 +158,9 @@ criar  uma variavel DENTRO DO ARQUIVO .env => STRIPE_WEBHOOK_SECRET_KEY= ""
 webhooks=> 4ad919546106f3058c82d68f8924 
 ## instalar a versão:
 
-npm i stripe@17.7.0
+* npm i stripe@17.7.0
+* npm i @stripe/stripe-js@5.7.0
+
 ## Erros de Eslint
 
 *abra  o terminal  e faça um build para fix dos imports  dos Eslint.
