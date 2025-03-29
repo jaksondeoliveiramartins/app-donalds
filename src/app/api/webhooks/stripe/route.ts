@@ -21,10 +21,11 @@ export async function POST(request: Request) {
     throw new Error("Missing Stripe webhook secret key");
   }
   const text = await request.text();
-  const event = stripe.webhooks.constructEvent(text,signature,webhookSecret);
+  const event = stripe.webhooks.constructEvent(text, signature, webhookSecret);
 
-  const paymentIsSucessful = event.type === "checkout.session.completed";
-  if (paymentIsSucessful) {
+  // const paymentIsSucessful = event.type === "checkout.session.completed";
+
+  if (event.type === "checkout.session.completed") {
     const orderId = event.data.object.metadata?.orderId;
     if (!orderId) {
       return NextResponse.json({
@@ -47,33 +48,31 @@ export async function POST(request: Request) {
       },
     });
     revalidatePath(`/${order.restaurant.slug}/orders`);
-    //   } else if (event.type === "charge.failed") {
-    //     const orderId = event.data.object.metadata?.orderId;
-    //     if (!orderId) {
-    //       return NextResponse.json({
-    //         received: true,
-    //       });
-    //     }
-    //     const order = await db.order.update({
-    //       where: {
-    //         id: Number(orderId),
-    //       },
-    //       data: {
-    //         status: "PAYMENT_FAILED",
-    //       },
-    //       include: {
-    //         restaurant: {
-    //           select: {
-    //             slug: true,
-    //           },
-    //         },
-    //       },
-    //     });
-    //     revalidatePath(`/${order.restaurant.slug}/orders`);
-    //   }
-
-    
+  } else if (event.type === "charge.failed") {
+    const orderId = event.data.object.metadata?.orderId;
+    if (!orderId) {
+      return NextResponse.json({
+        received: true,
+      });
+    }
+    const order = await db.order.update({
+      where: {
+        id: Number(orderId),
+      },
+      data: {
+        status: "PAYMENT_FAILED",
+      },
+      include: {
+        restaurant: {
+          select: {
+            slug: true,
+          },
+        },
+      },
+    });
+    revalidatePath(`/${order.restaurant.slug}/orders`);
   }
+
   return NextResponse.json({
     received: true,
   });
