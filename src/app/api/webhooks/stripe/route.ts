@@ -1,4 +1,4 @@
-import { revalidatePath } from "next/cache";
+//import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -23,57 +23,73 @@ export async function POST(request: Request) {
   const text = await request.text();
   const event = stripe.webhooks.constructEvent(text, signature, webhookSecret);
 
-  // const paymentIsSucessful = event.type === "checkout.session.completed";
-
-  if (event.type === "checkout.session.completed") {
+  const paymentIsSucessful = event.type === "checkout.session.completed";
+  if (paymentIsSucessful) {
     const orderId = event.data.object.metadata?.orderId;
     if (!orderId) {
       return NextResponse.json({
         received: true,
       });
     }
-    const order = await db.order.update({
+    await db.order.update({
       where: {
         id: Number(orderId),
       },
       data: {
         status: "PAYMENT_CONFIRMED",
       },
-      include: {
-        restaurant: {
-          select: {
-            slug: true,
-          },
-        },
-      },
     });
-    revalidatePath(`/${order.restaurant.slug}/orders`);
-  } else if (event.type === "charge.failed") {
-    const orderId = event.data.object.metadata?.orderId;
-    if (!orderId) {
-      return NextResponse.json({
-        received: true,
-      });
-    }
-    const order = await db.order.update({
-      where: {
-        id: Number(orderId),
-      },
-      data: {
-        status: "PAYMENT_FAILED",
-      },
-      include: {
-        restaurant: {
-          select: {
-            slug: true,
-          },
-        },
-      },
-    });
-    revalidatePath(`/${order.restaurant.slug}/orders`);
-  }
 
-  return NextResponse.json({
-    received: true,
-  });
+    //   if (event.type === "checkout.session.completed") {
+    //     const orderId = event.data.object.metadata?.orderId;
+    //     if (!orderId) {
+    //       return NextResponse.json({
+    //         received: true,
+    //       });
+    //     }
+    //     await db.order.update({
+    //       where: {
+    //         id: Number(orderId),
+    //       },
+    //       data: {
+    //         status: "PAYMENT_CONFIRMED",
+    //       },
+    //       // include: {
+    //       //   restaurant: {
+    //       //     select: {
+    //       //       slug: true,
+    //       //     },
+    //       //   },
+    //       // },
+    //     });
+    //     //revalidatePath(`/${order.restaurant.slug}/orders`);
+    //   // } else if (event.type === "charge.failed") {
+    //   //   const orderId = event.data.object.metadata?.orderId;
+    //   //   if (!orderId) {
+    //   //     return NextResponse.json({
+    //   //       received: true,
+    //   //     });
+    //   //   }
+    //   //   const order = await db.order.update({
+    //   //     where: {
+    //   //       id: Number(orderId),
+    //   //     },
+    //   //     data: {
+    //   //       status: "PAYMENT_FAILED",
+    //   //     },
+    //   //     include: {
+    //   //       restaurant: {
+    //   //         select: {
+    //   //           slug: true,
+    //   //         },
+    //   //       },
+    //   //     },
+    //   //   });
+    //   //   revalidatePath(`/${order.restaurant.slug}/orders`);
+    //   // }
+
+    return NextResponse.json({
+      received: true,
+    });
+  }
 }
