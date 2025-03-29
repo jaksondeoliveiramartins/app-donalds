@@ -4,7 +4,8 @@ import { ConsumptionMethod } from "@prisma/client";
 //import { headers } from "next/headers";
 import Stripe from "stripe";
 
-//import { db } from "@/lib/prisma";
+import { db } from "@/lib/prisma";
+
 import { CartProduct } from "../../context/cart";
 import { removeCpfPunctuation } from "../../helpers/cpf";
 
@@ -26,13 +27,13 @@ export const createStripeCheckout = async ({
     throw new Error("Stripe secret key not found");
   }
   //const origin = (await headers()).get("origin") as string;
-  // const productsWithPrices = await db.product.findMany({
-  //   where: {
-  //     id: {
-  //       in: products.map((product) => product.id),
-  //     },
-  //   },
-  // });
+  const productsWithPrices = await db.product.findMany({
+    where: {
+      id: {
+        in: products.map((product) => product.id),
+      },
+    },
+  });
 
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
     apiVersion: "2025-02-24.acacia",
@@ -61,9 +62,9 @@ export const createStripeCheckout = async ({
           images: [product.imageUrl],
         },
 
-        unit_amount: parseInt(String(product.price * 100)),
+        // unit_amount: parseInt(String(product.price * 100)),
 
-        // unit_amount: productsWithPrices.find((p) => p.id === product.id)!.price,
+        unit_amount: productsWithPrices.find((p) => p.id === product.id)!.price * 100,
       },
       quantity: product.quantity,
     })),
