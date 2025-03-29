@@ -51,6 +51,8 @@ export const createStripeCheckout = async ({
       success_url: `${origin}/${slug}/orders?${searchParams.toString()}`,
       cancel_url: `${origin}/${slug}/orders?${searchParams.toString()}`,
     },
+    // success_url: "http://localhost:3000",
+    // cancel_url: "http://localhost:3000",
 
     line_items: products.map((product) => ({
       price_data: {
@@ -62,7 +64,8 @@ export const createStripeCheckout = async ({
 
         // unit_amount: parseInt(String(product.price * 100)),
 
-        unit_amount: productsWithPrices.find((p) => p.id === product.id)!.price * 100,
+        unit_amount:
+          productsWithPrices.find((p) => p.id === product.id)!.price * 100,
       },
       quantity: product.quantity,
     })),
