@@ -39,7 +39,7 @@ passo 12 voltar no arquivo schema.prisma e add Cascate deletion.
 
 passo 13 instalar=> npm install -D ts-node@10.9.2
 
-passo 14 - ir ate ao arquivo package.json, abaixo de script vou colocar prisma:{"seed":'ts-node ./prisma/seed.ts'} cuidado ao digitar ts-node ./prisma/seed.ts pois ele nao poder ser muito junto => ou seja aqui estou falando este daqui é o script de seed quando ele rodar execute o ts-node.
+passo 14 - ir ate ao arquivo package.json, abaixo de script vou colocar prisma:{"seed":'ts-node ./prisma/seed.ts'} cuidado ao digitar ts-node ./prisma/seed.ts pois ele nao pode ser muito junto => ou seja aqui estou falando este daqui é o script de seed quando ele rodar execute o ts-node.
 
 passo - 15- rodar o seed.ts no banco => npx prisma db seed
 
