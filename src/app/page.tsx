@@ -1,3 +1,5 @@
+import React from "react";
+
 const HomePage = () => {
   return (
     <h1>Home Made</h1>
