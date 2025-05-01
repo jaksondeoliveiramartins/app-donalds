@@ -3,13 +3,15 @@ Este é um projeto Next.js inicializado com create-next-app.
 Começando
 Primeiro, execute o servidor de desenvolvimento:
 
-npm run dev
-# or
+or
 yarn dev
-# or
+
+or
 pnpm dev
-# or
+
+or
 bun dev
+
 Abra http://localhost:3000 com seu navegador para ver o resultado.
 
 Você pode começar a editar a página modificando app/page.tsx. A página é atualizada automaticamente conforme você edita o arquivo.
